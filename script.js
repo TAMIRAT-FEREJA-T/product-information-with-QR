@@ -49,7 +49,7 @@ function insertdata() {
     .then(() => {
 
       alert("Data inserted");
-      open('/confiry/index.html');
+      open('/confiry.html');
     })
     .catch((error) => {
       alert("unsuccessful ,error" + error);
