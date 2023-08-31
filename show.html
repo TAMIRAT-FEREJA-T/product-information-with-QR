@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,123 +10,114 @@
   <title>list product</title>
   <!-- normalize.css -->
   <link rel="stylesheet" href="./normalize.css" />
-
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- main.css -->
   <link rel="stylesheet" href="./main.css" />
-  
+
+  <style>
+    .hidden-details {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
   <div class="form">
-    <a href="index.html"><i class="  fa-solid fa-caret-left  fa-beat-fade">back</i> </a> 
 
     <div class="form-row">
-        <label class="form-label">serial number</label>
-        <input id="serialnumber" type="number" class="form-input "  required />
-      </div>
+      <label class="form-label">serial number</label>
+      <input id="serialnumber" type="number" class="form-input" required />
+    </div>
+
     <button id="submit" type="submit" class="btn btn-block submit-btn">select</button>
 
-    <h4 style="color: rgb(4, 255, 58) ; font-size:xx-large;"> product details</h4>
-    <div class="form-row">
-      <label class="form-label">product model</label>
-      <input type="text" id="productmodel" class="form-input " readonly />
-    </div>
-    <div class="form-row">
-      <label class="form-label">product name</label>
-      <input id="productname" class="form-input " readonly required />
-    </div>
-    <div class="form-row">
-      <label class="form-label">company name</label>
-      <input id="companyname" class="form-input " readonly />
-    </div>
-   
-    <div class="form-row">
-      <label class="form-label" required>production date</label>
-       <input id="productiondate" name="productiondate" type="date" class="form-input " readonly /> <!-- datepicker -->
-    </div>
-    <div class="form-row">
-      <label class="form-label" required>expire date</label>
-      <input id="expiredate" name="expiredate" type="date" class="form-input " readonly />
-    </div>
+    <div class="vv hidden-details" id="hide">
+      <h4 style="color: rgb(4, 255, 58); font-size: xx-large;"> Product Details</h4>
+      <div class="form-row">
+        <label class="form-label">Product Model</label>
+        <input type="text" id="productmodel" class="form-input" readonly />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Product Name</label>
+        <input id="productname" class="form-input" readonly required />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Company Name</label>
+        <input id="companyname" class="form-input" readonly />
+      </div>
 
-    
-<label class="btn btn-block submit-btn " style="background-color: green; text-align: center;">GOOD</label>
-
- <!-- <button onclick="submit()" id="submit">Submit d</button> -->
-
-
+      <div class="form-row">
+        <label class="form-label" required>Production Date</label>
+        <input id="productiondate" name="productiondate" type="date" class="form-input" readonly />
+        <!-- datepicker -->
+      </div>
+      <div class="form-row">
+        <label class="form-label" required>Expire Date</label>
+        <input id="expiredate" name="expiredate" type="date" class="form-input" readonly />
+      </div>
+    </div>
   </div>
 
-  </div>
-
-</body>
-
-<script type="module" >
+  <script type="module">
     // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyC8KaOW3rD9uv9rcXzzLSFxlej8a0gUXWU",
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+    import { getDatabase, ref, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8KaOW3rD9uv9rcXzzLSFxlej8a0gUXWU",
   authDomain: "product-management-a03b5.firebaseapp.com",
   databaseURL: "https://product-management-a03b5-default-rtdb.firebaseio.com",
   projectId: "product-management-a03b5",
   storageBucket: "product-management-a03b5.appspot.com",
   messagingSenderId: "768243012874",
   appId: "1:768243012874:web:21aa52654c8c33bd7516f3"
-};
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+    var prod_model = document.getElementById("productmodel");
+    var prod_name = document.getElementById("productname");
+    var company_name = document.getElementById("companyname");
+    var prod_date = document.getElementById("productiondate");
+    var exp_date = document.getElementById("expiredate");
+
+    var Selbtn = document.getElementById("submit");
+
+    Selbtn.addEventListener('click', selectdata);
+
+    function selectdata() {
+      var serialNumber = document.getElementById("serialnumber").value;
+
+      if (serialNumber === "") {
+        alert("Please enter the serial number.");
+        return;
+      }
+
+      const dbref = ref(db);
+      get(child(dbref, "products/" + serialNumber)).then((snapshot) => {
+        if (snapshot.exists()) {
+          prod_model.value = snapshot.val().prodmodel;
+          prod_name.value = snapshot.val().productname;
+          company_name.value = snapshot.val().companyname;
+          prod_date.value = snapshot.val().productiondate;
+          exp_date.
 
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+value = snapshot.val().expiredate;
 
-import { getDatabase, ref, get, set, child, update, remove }
-  from "https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js";
-const db = getDatabase();
-// references
-
-var serial_number = document.getElementById("serialnumber");
-var prod_model = document.getElementById("productmodel");
-var prod_name = document.getElementById("productname");
-var company_name = document.getElementById("companyname");
-var prod_date = document.getElementById("productiondate");    
-var exp_date = document.getElementById("expiredate");
-
-
-var Selbtn = document.getElementById("submit");
-
-
-function selectdata(){
-    const dbref = ref(db);
-    get(child(dbref,"products/"+ serialnumber.value)).then((snapshot)=>{
-        if(snapshot.exists()){
-            prod_model.value = snapshot.val().prodmodel;
-            prod_name.value = snapshot.val().productname;
-            company_name.value = snapshot.val().companyname;
-            prod_date.value = snapshot.val().productiondate;
-            exp_date.value = snapshot.val().expiredate;
-
-           
-    }
-        else{
-            alert ("No such record found") ;
+          document.getElementById('hide').classList.remove('hidden-details');
+        } else {
+          alert("No record found for the given serial number.");
+          document.getElementById('hide').classList.add('hidden-details');
         }
-    })
-        .catch((error)=>{
-            alert ('Error'+ error)
-        });
-    
-}
+      }).catch((error) => {
+        alert('Error: ' + error);
+        document.getElementById('hide').classList.add('hidden-details');
+      });
+    }
+  </script>
 
-
-
-    Selbtn.addEventListener('click',selectdata);
-
-  
-</script>
-
+</body>
 
 </html>
+
