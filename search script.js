@@ -3,13 +3,13 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
     import { getDatabase, ref, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js";
     const firebaseConfig = {
-      apiKey: "AIzaSyC8KaOW3rD9uv9rcXzzLSFxlej8a0gUXWU",
-      authDomain: "product-management-a03b5.firebaseapp.com",
-      databaseURL: "https://product-management-a03b5-default-rtdb.firebaseio.com",
-      projectId: "product-management-a03b5",
-      storageBucket: "product-management-a03b5.appspot.com",
-      messagingSenderId: "768243012874",
-      appId: "1:768243012874:web:21aa52654c8c33bd7516f3"
+      apiKey: "",
+      authDomain: "",
+      databaseURL: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
     };
 
     // Initialize Firebase
